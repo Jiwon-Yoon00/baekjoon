@@ -12,17 +12,7 @@ public class Main {
         int a = Integer.parseInt(st.nextToken());
         int b = Integer.parseInt(st.nextToken());
 
-        StringBuilder sb = new StringBuilder();
-
-        if(a > b) {
-            sb.append(">");
-        } else if (a < b) {
-            sb.append("<");
-        } else if (a == b) {
-            sb.append("==");
-        }
-
-
-        System.out.println(sb);
+        System.out.println((a>b) ? ">" : ((a <b) ? "<" : "=="));
     }
 }
+
