@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
@@ -13,21 +14,18 @@ public class Main {
         int n =Integer.parseInt(br.readLine());
         String str = br.readLine();
         int a = 0;
-        int sum = 0;
+        long r =1;
+        long sum = 0;
+
+        int mod = 1234567891;
+
         for(int i =0;i<n; i++){
             a = str.charAt(i) - 'a' + 1;
-            sum += (a * power(31, i)) % 1234567891;
+            sum += (a * r) % mod;
+            r = (r*31) % mod;
         }
-        System.out.println(sum);
+        System.out.println(sum%mod);
     }
-
-    public static long power(int base, int exp){
-        long result = 1;
-        for(int i=0; i< exp; i++){
-            result *= base;
-        }
-
-        return  result;
-    }
-
+    
 }
+
