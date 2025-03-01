@@ -14,19 +14,24 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int tc = Integer.parseInt(br.readLine());
-        int arr[] = new int[tc];
+        int[] cnt = new int[10001];
+
         for(int i =0; i < tc; i++){
-            arr[i] = Integer.parseInt(br.readLine());
+            cnt[Integer.parseInt(br.readLine())] ++; // 과정 1
         }
 
-        Arrays.sort(arr);
-        for (int i = 0; i < tc; i++) {
-            sb.append(arr[i]);
-            sb.append("\n");
+        br.close();
+
+        for (int i = 1; i <  10001; i++) {
+            while (cnt[i] > 0){ // cnt[i] 에 값이 있을 경우에만
+                sb.append(i); 
+                sb.append("\n");
+                cnt[i]--;
+            }
         }
 
         System.out.println(sb);
     }
-
-
 }
+
+
