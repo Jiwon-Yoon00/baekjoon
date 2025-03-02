@@ -30,17 +30,15 @@ public class Main {
 
         // 덩치 비교
         for (int i = 0; i < N; i++) {
-            for (int j = i+1; j < N ; j++) {
+            int rank = 1;
+            for (int j = 0; j < N ; j++) {
+                if(i == j) continue;
                 if(arr[i][0] < arr[j][0] && arr[i][1] < arr[j][1]){
-                    result[i] += 1;
-                } else if (arr[i][0] > arr[j][0] && arr[i][1] > arr[j][1]) {
-                    result[j] += 1;
+                    rank++;
                 }
             }
+            System.out.println(rank);
         }
 
-        for (int i = 0; i < result.length; i++) {
-            System.out.print(result[i] +" ");
-        }
     }
 }
