@@ -1,40 +1,45 @@
 class Solution {
     public int solution(int[] schedules, int[][] timelogs, int startday) {
-
-        // schedules 10분 더한 배열
-        int[] convertSchedules = new int[schedules.length];
-        for(int i = 0; i < schedules.length; i++){
-            int hour = schedules[i] / 100;
-            int minutes = schedules[i] % 100;
-            minutes += 10;
-            if(minutes >= 60){
-                hour += minutes / 60;
-                minutes %= 60;
-            }
-            convertSchedules[i] = hour * 100 + minutes;
-        }
-
-        int answer = 0;
-        int day0 = startday - 1;  // 0~6 범위
-
-        for (int i = 0; i < schedules.length; i++) {
-            boolean success = true;
-            for (int j = 0; j < timelogs[i].length; j++) {
-
-                // j일 후 요일 계산
-                int dDay = (day0 + j) % 7;
-
-                // 토요일(5), 일요일(6) 건너뛰기
-                if(dDay == 5 || dDay == 6) continue;
-
-                if (convertSchedules[i] < timelogs[i][j]) {
-                    success = false;
+        int len = schedules.length;
+        int answer = len;
+        
+       
+        int curDay = startday;
+        
+        for(int i = 0; i < len; i++){
+            
+            int workTime  = convertTime(schedules[i]); // 출근희망 시각
+            
+            int day = startday;
+            for(int j = 0; j < 7; j++){
+                if(day == 6 || day == 7){ // 주말이면 건너뛰기
+                    day = (day % 7) + 1;
+                    continue;
+                }
+                
+               day = (day % 7) + 1; // 다음 날
+                
+                int realTime  = convertTime(timelogs[i][j]); // 실제 출근한 시각
+                
+                if(realTime > workTime + 10){ // 실제출근 한 시간이 더 느리면
+                    answer--;
                     break;
                 }
+                
             }
-            if (success) answer++;
+            
         }
+        
         return answer;
+    }
+    
+    public int convertTime(int time){
+        String str = String.valueOf(time);
+        int len = str.length();
+        int minutes = Integer.parseInt(str.substring(len - 2));
+        int hour = Integer.parseInt(str.substring(0, len - 2)) * 60;
+
+        return hour + minutes;
     }
 }
 
