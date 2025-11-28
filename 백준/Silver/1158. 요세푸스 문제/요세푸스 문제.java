@@ -13,31 +13,21 @@ class Main {
         
         StringBuilder sb = new StringBuilder("<");
         ArrayDeque<Integer> q = new ArrayDeque<>();
-        int index = K;
         
-        for(int c = 0; c < N; c++){
-            if(N + 1 == index){
-                index = 1;
-            }
-            q.offer(index % (N + 1));
-            index++;
+        for(int c = 1; c <= N; c++){
+            q.offer(c);
         }
 
-        for(int i = 0; i < N; i++){
-            if(i == N - 1){
-                sb.append(q.poll()).append(">");
-                break;
-            }else{
-                 sb.append(q.poll()).append(", "); 
-            }
+        while(!q.isEmpty()){
+          for(int i = 0; i < K- 1; i ++){
+              q.offer(q.poll());
+          }
 
-            for(int j = 0; j < K-1; j++){
-                int v = q.poll();
-                q.offer(v);
-            }
+            sb.append(q.poll());
 
+            if(!q.isEmpty()) sb.append(", ");
         }
-
+        sb.append(">");
         System.out.println(sb);
     }
 }
