@@ -1,64 +1,47 @@
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import java.lang.*;
+import java.io.*;
 
-import static java.lang.Math.sqrt;
-
-public class Main {
-    public static void main(String[] args) throws IOException {
+// The main method must be in a class named "Main".
+class Main {
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        int test_case = Integer.parseInt(br.readLine());
+        
+        
+        for(int c = 0; c < test_case; c++){
+            ArrayDeque<int[]> q = new ArrayDeque<>();
+            String[] line = br.readLine().split(" ");
+            int N = Integer.parseInt(line[0]);
+            int M = Integer.parseInt(line[1]);
+            int cnt = 0;
+            String[] pri = br.readLine().split(" ");
 
-        int tc = Integer.parseInt(br.readLine());
-
-        for (int i = 0; i < tc; i++) {
-
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-
-            int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());
-
-            st = new StringTokenizer(br.readLine(), " ");
-            LinkedList<int[]> q = new LinkedList<>();
-
-            for (int j = 0; j < N; j++) {
-                q.offer(new int[] { j, Integer.parseInt(st.nextToken()) });
+            Integer[] priList = new Integer[N];
+            for(int i = 0; i < N; i ++) {
+                priList[i] = Integer.parseInt(pri[i]);
+                q.offer(new int[]{i, Integer.parseInt(pri[i])});      
             }
+            Arrays.sort(priList, Collections.reverseOrder());
+            int x = 0;
+            while(!q.isEmpty()){
+                int[] cur = q.peek();
+                int index = cur[0];
+                int priority = cur[1];
 
-            int count = 0;
-
-            while (!q.isEmpty()){
-                int[] front = q.poll();
-                boolean isMax = true;
-
-                for (int j = 0; j < q.size(); j++) {
-                    if(front[1] < q.get(j)[1]){
-
-                        q.offer(front);
-
-                        for (int k = 0; k < j; k++) {
-                            q.offer(q.poll());
-                        }
-
-                        isMax = false;
-                        break;
-                    }
-                }
-
-                if(isMax == false) {
-                    continue;
-                }
-
-                count++;
-                if(front[0] == M) {	// 찾고자 하는 문서라면 해당 테스트케이스 종료
-                    break;
+                if(priority < priList[x]){
+                    q.offer(q.poll());
+                    //System.out.println("index: " + index + " pri:" + priority);
+                    
+                }else if(priority == priList[x]){
+                    //System.out.println("% index: " + index + " pri:" + priority);
+                    q.remove();
+                    x++;
+                    cnt++;
+                    if(index == M)break;
                 }
             }
-            sb.append(count).append('\n');
+            System.out.println(cnt);
         }
-        System.out.println(sb);
     }
 }
-
-
