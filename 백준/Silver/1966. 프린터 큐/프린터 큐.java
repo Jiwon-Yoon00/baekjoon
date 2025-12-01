@@ -9,39 +9,41 @@ class Main {
         int test_case = Integer.parseInt(br.readLine());
         
         
-        for(int c = 0; c < test_case; c++){
+        while(test_case-- > 0){
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
+            
+            st = new StringTokenizer(br.readLine());
             ArrayDeque<int[]> q = new ArrayDeque<>();
-            String[] line = br.readLine().split(" ");
-            int N = Integer.parseInt(line[0]);
-            int M = Integer.parseInt(line[1]);
-            int cnt = 0;
-            String[] pri = br.readLine().split(" ");
+            int[] count = new int[10];
 
-            Integer[] priList = new Integer[N];
+            
             for(int i = 0; i < N; i ++) {
-                priList[i] = Integer.parseInt(pri[i]);
-                q.offer(new int[]{i, Integer.parseInt(pri[i])});      
+                int p = Integer.parseInt(st.nextToken());
+                q.offer(new int[]{i, p});
+                count[p]++;
             }
-            Arrays.sort(priList, Collections.reverseOrder());
-            int x = 0;
-            while(!q.isEmpty()){
-                int[] cur = q.peek();
-                int index = cur[0];
-                int priority = cur[1];
+            
+            int printed = 0;
+            for(int priority = 9; priority >= 1;){
+                if(count[priority] == 0){
+                    priority--;
+                    continue;
+                }
 
-                if(priority < priList[x]){
-                    q.offer(q.poll());
-                    //System.out.println("index: " + index + " pri:" + priority);
-                    
-                }else if(priority == priList[x]){
-                    //System.out.println("% index: " + index + " pri:" + priority);
-                    q.remove();
-                    x++;
-                    cnt++;
-                    if(index == M)break;
+                int[] cur = q.poll();
+                if(cur[1] == priority){
+                    printed++;
+                    count[priority]--;
+                    if(cur[0] == M){
+                       System.out.println(printed);
+                        break;
+                    }
+                }else {
+                    q.offer(cur);
                 }
             }
-            System.out.println(cnt);
         }
     }
 }
