@@ -1,47 +1,39 @@
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import java.lang.*;
+import java.io.*;
 
-public class Main {
-    static boolean[] check;
-    static int[][] arr;
-    static int node, line;
-    static Queue<Integer> q = new LinkedList<>();
-    static int count = 0;
-    public static void main(String[] args) throws IOException {
-
+// The main method must be in a class named "Main".
+class Main {
+    static int cnt = 0;
+    static int computer;
+    static int[][] graph;
+    static boolean[] visitied;
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        node = Integer.parseInt(br.readLine());
-        line = Integer.parseInt(br.readLine());
-
-        arr = new int[node+1][node+1];
-        check = new boolean[node+1];
-
-        for (int i = 0; i < line; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
+        computer = Integer.parseInt(br.readLine());
+        int pair = Integer.parseInt(br.readLine());
+        
+        graph = new int[computer + 1][computer + 1];
+        visitied = new boolean[computer + 1];
+        
+        for(int i = 0; i < pair; i++){
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-
-            arr[a][b] = arr[b][a] = 1; // 인접행렬
+            graph[a][b] = graph[b][a] = 1;
         }
 
         dfs(1);
-
-        System.out.println(count-1);
-
+        System.out.println(cnt);
+       
     }
 
-    public static void dfs(int start){
-        check[start] = true;
-        count++;
-
-        for (int i = 0; i <= node ; i++) {
-            // arr[start][i] == 1 은 start 노드와 i노드가 연결되었다는 뜻.
-            // check가 false라면 아직 순회하지 않았다는 뜻
-            if(arr[start][i] ==  1 && !check[i]){
-                // start와 연결된 다음 노드로 가서 다시 check를 true로 만듦
+    static void dfs(int num){
+        visitied[num] = true;
+        
+        for(int i = 1; i < computer + 1; i++){
+            if(!visitied[i] && graph[num][i] == 1){
+                cnt++;
                 dfs(i);
             }
         }
