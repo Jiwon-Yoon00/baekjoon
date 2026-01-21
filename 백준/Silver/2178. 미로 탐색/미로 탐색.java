@@ -1,63 +1,60 @@
 import java.util.*;
+import java.lang.*;
 import java.io.*;
 
-class Main
-{
-	static int[][] dist;
-	static int[][] arr;
-	static int N;
-	static int M;
-	static int[] dx = {1, 0, -1, 0};
-	static int[] dy = {0,1,0,-1};
-	
-	public static void main(String[] args) throws Exception {
-		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt();
-		M = sc.nextInt();
-		sc.nextLine();
-		arr = new int[N][M];
-		dist = new int[N][M];
-		
-		// 입력받기
-		for(int i= 0; i < N; i++) {
-			String line = sc.nextLine(); 
-			for(int j = 0; j < M; j++){
-				arr[i][j] = line.charAt(j) - '0';
-				dist[i][j] = Integer.MAX_VALUE;
-			}
-		}
-		
-		bfs();
-		System.out.println(dist[N-1][M-1] +1);
-		
-	}
-	
-	public static void bfs() {
-		ArrayDeque<int[]> q = new ArrayDeque<>();
-		q.add(new int[] {0,0});
-		dist[0][0] = 0;
-		while(!q.isEmpty()) {
-			
-			int[] cur = q.poll();
-			int x = cur[0];
-			int y = cur[1];
-			
-			for(int i = 0; i < 4; i ++) {
-				int nx = x + dx[i];
-				int ny = y + dy[i];
-				
-				if(nx < 0 || ny < 0 || nx >= N || ny >= M || arr[nx][ny] == 0) continue;
-				
-				int cost = arr[nx][ny] + dist[x][y];
-				
-				if(cost < dist[nx][ny]) {
-					dist[nx][ny] = cost;
-					q.add(new int[] {nx,ny});
-				}
-			}
-			
-			
-			
-		}
-	}
+// The main method must be in a class named "Main".
+class Main {
+    static int N;
+    static int M;
+    static int[][] arr;
+    static boolean[][] visited;
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, 1, -1};
+    static int[][] dist;
+    
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] line = br.readLine().split(" ");
+        N = Integer.parseInt(line[0]);
+        M = Integer.parseInt(line[1]);
+        dist = new int[N][M];
+        arr = new int[N][M];
+        visited = new boolean[N][M];
+
+        for(int i = 0; i < N; i++){
+            line = br.readLine().split("");
+            for(int j = 0; j < M; j++){
+                arr[i][j] = Integer.parseInt(line[j]);
+            }
+        }
+
+        dist[0][0] = 1;
+        bfs(0,0);
+
+        System.out.println(dist[N-1][M-1]);
+    }
+
+    static void bfs(int x, int y){
+        Queue<int[]> q = new ArrayDeque<>();
+        visited[x][y] = true;
+        q.add(new int[]{x,y});
+        
+        while(!q.isEmpty()){
+            int[] cur = q.poll();
+            int a = cur[0];
+            int b = cur[1];
+
+            for(int i = 0; i < 4; i++){
+                int cx = a + dx[i];
+                int cy = b + dy[i];
+
+                if(cx < 0 || cy < 0 || cx >= N || cy >= M)continue;
+                if(visited[cx][cy]) continue; 
+                if(arr[cx][cy] == 0) continue;
+                dist[cx][cy] = dist[a][b] + 1;
+                q.add(new int[]{cx,cy});
+                visited[cx][cy] = true;
+            }
+        }
+    }
 }
