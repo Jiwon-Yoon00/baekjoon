@@ -42,13 +42,11 @@ class Main {
         }
 
         for(int i = start; i < N; i++){
-            if(visited[i]) continue;
-            if(i > 0 && arr[i] == arr[i-1] && !visited[i - 1]) continue;
-            visited[i] = true;
+          if(i > start && arr[i] == arr[i-1]) continue;
+            
             result[depth] = arr[i];
             dfs(depth + 1, i + 1);
 
-            visited[i] = false;
         }
     }
 }
