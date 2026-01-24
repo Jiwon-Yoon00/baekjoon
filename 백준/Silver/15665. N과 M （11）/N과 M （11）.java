@@ -1,0 +1,55 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+// The main method must be in a class named "Main".
+class Main {
+    static int N;
+    static int M;
+    static int[] arr;
+    static int[] result;
+    static boolean[] visited;
+    static StringBuilder sb = new StringBuilder();
+    
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        arr = new int[N];
+        visited = new boolean[N + 1];
+        result = new int[N];
+        
+        st = new StringTokenizer(br.readLine());
+        
+        for(int i = 0; i < N; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(arr);
+        
+        dfs(0); 
+
+        System.out.println(sb);
+    }
+
+    static void dfs(int depth){
+        if(depth == M){
+            for(int i = 0; i < M; i++){
+                sb.append(result[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for(int i = 0; i < N; i++){
+          
+            if (i > 0 && arr[i] == arr[i - 1] && !visited[i - 1]) continue;
+            visited[i] = true;
+            result[depth] = arr[i];
+            //System.out.println("i: " + i + " arr[i]: " + arr[i]);
+            dfs(depth + 1);
+
+            visited[i] = false;
+        }
+    }
+}
