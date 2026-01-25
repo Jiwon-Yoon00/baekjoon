@@ -7,39 +7,35 @@ class Main {
     static int N;
     static int S;
     static int[] arr;
-    static boolean[] visited;
-    static int[] map;
-    static int result = 0;
+    static int cnt;
+   
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
-        S = Integer.parseInt(st.nextToken()); 
+        S = Integer.parseInt(st.nextToken());
         
-        visited = new boolean[N+1];
         arr = new int[N];
-        map = new int[N]; 
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < N; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
- if (S == 0) result--;
+        
+        if (S == 0) cnt--;
         dfs(0, 0);
         
-        System.out.println(result);
+        System.out.println(cnt);
     }
 
-    static void dfs(int idx, int sum) {
-        if (idx == N) {
-            if (sum == S) result++;
+    static void dfs(int idx, int sum){
+
+        if(idx == N){
+            if(S == sum) cnt++;
             return;
         }
-    
-        // 현재 원소를 선택하는 경우
-        dfs(idx + 1, sum + arr[idx]);
-    
-        // 현재 원소를 선택하지 않는 경우
-        dfs(idx + 1, sum);
-    }
 
+        dfs(idx + 1, sum);
+
+        dfs(idx + 1, sum + arr[idx]);
+    }
 }
