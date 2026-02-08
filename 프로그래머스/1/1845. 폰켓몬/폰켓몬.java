@@ -4,20 +4,19 @@ class Solution {
     public int solution(int[] nums) {
         int answer = 0;
         
+        int n = nums.length / 2;
+        
         HashMap<Integer, Integer> map = new HashMap<>();
         
-        for(Integer n: nums){
-            map.put(n, map.getOrDefault(n, 0) + 1);    
+        for(int value: nums){
+            map.put(value, map.getOrDefault(map.get(value), 0) + 1);
         }
         
-        int len = nums.length;
-        
-        if(len / 2 <= map.size()){
-            answer = len / 2;
+        if(map.size() >= n){
+            return n;
         }else{
-            answer = map.size();
+            return map.size();
         }
-        
-        return answer;
+
     }
 }
